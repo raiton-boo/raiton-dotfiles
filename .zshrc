@@ -1,6 +1,9 @@
 # ================================================================
 # 1. Powerlevel10k Instant Prompt
 # ================================================================
+# 演出と競合するため、Instant Prompt をオフに設定します
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
+
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -9,7 +12,7 @@ fi
 # 2. 環境変数 / 基本設定
 # ================================================================
 export LANG=ja_JP.UTF-8
-export BAT_THEME="Dracula"  # batのテーマを固定
+export BAT_THEME="Dracula"
 
 # Ruby Path (Homebrew用)
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
@@ -51,15 +54,15 @@ compinit -u
 # ================================================================
 
 # --- 基本操作 ---
-alias reload="source ~/.zshrc"       # 設定ファイルの即時反映
-alias c="clear"                      # 画面を掃除
-alias pathlist='echo $PATH | tr ":" "\n" | nl' # PATHを1行ずつ表示
+alias reload="source ~/.zshrc"
+alias c="clear"
+alias pathlist='echo $PATH | tr ":" "\n" | nl'
 
 # --- 移動・ショートカット ---
-alias ..='cd ..'                     # 1つ上の階層へ
-alias ...='cd ../..'                 # 2つ上の階層へ
-alias g='git'                        # Gitを1文字で
-alias v='vim'                        # Vimを1文字で
+alias ..='cd ..'
+alias ...='cd ../..'
+alias g='git'
+alias v='vim'
 
 # --- モダンツールへの置き換え ---
 alias ls='eza --icons --classify --group-directories-first'
@@ -80,7 +83,7 @@ alias emoji='emoj'
 alias matrix='cmatrix'
 alias マトリックス='cmatrix'
 alias bonsai='cbonsai -p'
-alias bonsai-live='cbonsai -l'
+alias bonsai-live='cbonsai -l -p'
 alias 盆栽='cbonsai -p'
 alias ぼんさい='cbonsai -p'
 
@@ -94,8 +97,6 @@ alias hack-mem='genact -m memdump'
 alias hack-scan='genact -m rkhunter'
 
 # --- 特殊関数 (cowsay & fortune) ---
-
-# 注意: ここで alias cowsay=... を書かないことでエラーを回避します
 cowsay() {
   if [ -z "$1" ]; then
     command cowsay "Hello raiton!" | lolcat -f
@@ -104,10 +105,10 @@ cowsay() {
   fi
 }
 
-# fortune: json形式として認識させ、Draculaテーマの多彩な色を適用
+# fortune: Draculaテーマを維持しつつbatで表示
 alias fortune='fortune -s | bat -l json --style=plain'
 
-# --- 強力な解凍関数 (extract) ---
+# --- 解凍関数 ---
 extract() {
   if [ -f "$1" ] ; then
     case "$1" in
@@ -136,18 +137,24 @@ source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # ================================================================
-# 8. 起動時ランダム演出 (ガチャ)
+# 8. 起動時ランダム演出
 # ================================================================
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-
-RAND_VAL=$(( RANDOM % 20 ))
-if [ $RAND_VAL -eq 0 ]; then
-  sl
-else
-  CASE=$(( RANDOM % 4 ))
+if [[ -o interactive ]]; then
+  # ガチャ（Fortune or Custom Message）
+  CASE=$(( RANDOM % 2 ))
   case $CASE in
-    0|1) fortune -s | cowsay | lolcat -f ;;
-    2)   printf "Hi raiton!\nTerminal Ready. Happy Coding!\nLet tools work for you!\n" | lolcat -f ;;
-    3)   cbonsai -p ;;
+    0)
+      # fortune の出力を cowsay に流す
+      command fortune -s | command cowsay | lolcat -f
+      ;;
+    1)
+      # -n をつけることでヒアドキュメントの改行を厳密に守らせる
+      cat << 'EOF' | command cowsay -n | lolcat -f
+Hi raiton!
+Terminal Ready.
+Happy Coding!
+Let tools work for you!
+EOF
+      ;;
   esac
 fi
