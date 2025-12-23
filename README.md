@@ -1,5 +1,13 @@
 # raiton's Dotfiles
 
+![OS](https://img.shields.io/badge/OS-macOS%20Apple%20Silicon-000000?style=for-the-badge&logo=apple) ![Shell](https://img.shields.io/badge/Shell-zsh-4EAA25?style=for-the-badge&logo=zsh&logoColor=white) ![Git](https://img.shields.io/badge/Source_Control-Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+
+![Editor](https://img.shields.io/badge/Editor-Vim-019733?style=for-the-badge&logo=vim&logoColor=white) ![Theme](https://img.shields.io/badge/Theme-Dracula-BD93F9?style=for-the-badge&logo=dracula&logoColor=white) ![Mise](https://img.shields.io/badge/Runtime-Mise-blue?style=for-the-badge&logo=package) ![Homebrew](https://img.shields.io/badge/Package-Homebrew-FBB03B?style=for-the-badge&logo=homebrew&logoColor=white)
+
+![AI-Powered](https://img.shields.io/badge/Powered_by-Gemini-4285F4?style=for-the-badge&logo=google-gemini&logoColor=white) ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+
+---
+
 ターミナル環境を「最強の武器」に変えるための設定とツールの管理。
 
 ## 🚀 モダン・コマンド (標準コマンドの強化版)
@@ -58,4 +66,4 @@
 
 ---
 
-Created by raiton. Powered by Geminiくん.
+Created by raiton. Powered by Gemini くん.
