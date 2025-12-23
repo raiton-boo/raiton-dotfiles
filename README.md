@@ -48,21 +48,12 @@
 | `hack-pass` | `genact` によるパスワード解析風の演出。      | `Ctrl+C`   |
 | `sl`        | 画面を蒸気機関車が走り抜ける。               | 自動終了   |
 
-## 🛡 Global Git Ignore Settings
-
-`~/.config/git/ignore` にて、全プロジェクト共通で以下のファイルを排除。
-
-- **OS**: `.DS_Store`, `Thumbs.db`, `._*`
-- **IDE**: `.vscode/`, `.idea/`
-- **Secret**: `.env` (機密情報の誤爆防止)
-- **Editor**: `*.swp`, `*.swo`, `.netrwhist` (Vim 一時ファイル)
-
 ## 📦 管理のルール
 
 - **Homebrew**: `brew bundle dump --force` で `Brewfile` を更新。
 - **mise**: `~/.config/mise` はリンク済み。`mise trust` で設定を有効化。
-- **Git Config**: `excludesfile` は `~/.config/git/ignore` を絶対参照。
 - **Git Commit**: `chore: (設定変更)`, `feat: (ツール追加)` を接頭辞に使用。
+- **Git Ignore**: プロジェクトの透明性を保つため、グローバル設定は使わず各リポジトリで `.gitignore` を管理。
 
 ---
 
