@@ -1,0 +1,21 @@
+# ================================================================
+# raiton's Global Git Ignore
+# ================================================================
+
+# --- macOS System Files ---
+.DS_Store          # フォルダ表示設定
+.AppleDouble       # リソースフォーク
+._* # macOS メタデータ
+
+# --- OS / IDE (General junk) ---
+Thumbs.db          # Windows の画像キャッシュ
+.vscode/           # VSCode の個人設定
+.idea/             # JetBrains 系 IDE の設定
+
+# --- Environment / Secret (Qiita Recommended) ---
+.env               # 機密情報（誤アップロード防止）
+
+# --- Vim Temporary ---
+*.swp              # Vim スワップファイル（編集中の一時ファイル）
+*.swo              # 同上
+.netrwhist         # Vim ディレクトリ閲覧履歴
