@@ -5,6 +5,7 @@
 # --- macOS System Files ---
 .DS_Store          # フォルダ表示設定
 .AppleDouble       # リソースフォーク
+.LSOverride        # Launch Services の設定ファイル
 ._* # macOS メタデータ
 
 # --- OS / IDE (General junk) ---
