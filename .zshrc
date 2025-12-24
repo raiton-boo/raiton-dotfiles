@@ -49,7 +49,6 @@ autoload -Uz compinit && compinit -u
 alias reload="source ~/.zshrc"
 alias c="clear"
 alias pathlist='echo $PATH | tr ":" "\n" | nl'
-alias z='cd'
 alias ..='z ..'
 alias ...='z ../..'
 
