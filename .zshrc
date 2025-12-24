@@ -53,23 +53,22 @@ compinit -u
 # 5. エイリアス・関数定義
 # ================================================================
 
-# --- 基本操作 ---
+# --- 5.1 基本操作 (System & Navigation) ---
 alias reload="source ~/.zshrc"
 alias c="clear"
 alias pathlist='echo $PATH | tr ":" "\n" | nl'
-
-# --- 移動・ショートカット ---
 alias ..='cd ..'
 alias ...='cd ../..'
+
+# --- 5.2 開発・短縮コマンド (Dev Tools) ---
 alias g='git'
 alias v='vim'
 
-# --- モダンツールへの置き換え ---
+# --- 5.3 モダンツール置換 (Alternative CLI Tools) ---
 alias ls='eza --icons --classify --group-directories-first'
 alias la='eza --icons --classify --group-directories-first -a'
 alias ll='eza --icons --classify --group-directories-first -lah --time-style=long-iso --octal-permissions --git'
 alias lt='eza --icons --classify --group-directories-first --tree --level=2'
-
 alias cat='bat'
 alias grep='rg'
 alias find='fd'
@@ -79,15 +78,13 @@ alias ping='gping'
 alias speed='speedtest'
 alias emoji='emoj'
 
-# --- お遊び・演出系 ---
+# --- 5.4 遊び・演出系 (Fun & Visual) ---
 alias matrix='cmatrix'
 alias マトリックス='cmatrix'
 alias bonsai='cbonsai -p'
 alias bonsai-live='cbonsai -l -p'
 alias 盆栽='cbonsai -p'
 alias ぼんさい='cbonsai -p'
-
-# Genact シリーズ
 alias hack-pass='genact -m bruteforce'
 alias hack-mine='genact -m cryptomining'
 alias hack-bot='genact -m botnet'
@@ -96,21 +93,56 @@ alias hack-math='genact -m julia'
 alias hack-mem='genact -m memdump'
 alias hack-scan='genact -m rkhunter'
 
-# --- 特殊関数 (cowsay & fortune) ---
+# --- 5.5 テキスト演出 (Cowsay & Fortune) ---
+
+# cowsay強化版関数
 cowsay() {
-  if [ -z "$1" ]; then
-    command cowsay "Hello raiton!" | lolcat -f
+  # 1. 引数なしならhelpを表示
+  if [[ $# -eq 0 ]]; then
+    command cowsay -h
+    return
+  fi
+
+  # 2. キャラクターリスト表示 (-l) のカスタマイズ
+  if [[ "$*" == *"-l"* ]]; then
+    # パス行を消し、スペースを改行に変換して、空行を除去してから虹色表示
+    command cowsay -l | grep -v "files in" | tr ' ' '\n' | grep -v '^$' | lolcat -f
+    return
+  fi
+
+  # 3. 全キャラ表示オプション (-a)
+  if [[ "$1" == "-a" ]]; then
+    shift
+    local msg="${*:-Hi Raiton!}"
+    for c in $(command cowsay -l | grep -v "files in"); do
+      echo "\n\033[1;36m[ $c ]\033[0m"
+      command cowsay -f "$c" "$msg" | lolcat -f
+    done
+    return
+  fi
+
+  # 4. 通常のメッセージ送信や -f 指定時などはすべて虹色にする
+  # -h (help) だけは虹色にしないようにガード
+  if [[ "$1" == "-h" ]]; then
+    command cowsay "$@"
   else
     command cowsay "$@" | lolcat -f
   fi
 }
 
-# fortune: Draculaテーマを維持しつつbatで表示
+# fortune: Draculaテーマで名言を表示
 alias fortune='fortune -s | bat -l json --style=plain'
 
-# --- 解凍関数 ---
+# --- 5.6 ユーティリティ (Utility Functions) ---
+
+# アーカイブ解凍関数
 extract() {
-  if [ -f "$1" ] ; then
+  if [[ $# -eq 0 ]]; then
+    echo "\033[1;33mUsage: extract <file_name>\033[0m"
+    echo "解凍したいファイルを指定してください。"
+    return 1
+  fi
+  if [[ -f "$1" ]] ; then
     case "$1" in
       *.7z|*.zip|*.rar) 7z x "$1"      ;;
       *.tar.gz)         tar xzvf "$1"  ;;
@@ -140,21 +172,15 @@ source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 # 8. 起動時ランダム演出
 # ================================================================
 if [[ -o interactive ]]; then
-  # ガチャ（Fortune or Custom Message）
-  CASE=$(( RANDOM % 2 ))
-  case $CASE in
-    0)
-      # fortune の出力を cowsay に流す
-      command fortune -s | command cowsay | lolcat -f
-      ;;
-    1)
-      # -n をつけることでヒアドキュメントの改行を厳密に守らせる
-      cat << 'EOF' | command cowsay -n | lolcat -f
-Hi raiton!
+  (
+    # キャラ名を静かに取得
+    CHAR=$(command cowsay -l | grep -v "files in" | tr ' ' '\n' | grep -v '^$' | (gshuf -n 1 2>/dev/null || sort -R | head -n 1))
+
+    # cowsay -n オプションで改行を維持
+    command cowsay -n -f "${CHAR:-default}" << EOF | lolcat -f
+Hi らいと !
 Terminal Ready.
-Happy Coding!
-Let tools work for you!
+Happy hacking !
 EOF
-      ;;
-  esac
+  )
 fi
