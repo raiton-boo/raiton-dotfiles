@@ -7,8 +7,10 @@ link () {
     local src="$1"
     local dst="$2"
 
-    if [ -e "$dst" ] || [ -L "$dst" ]; then
-        rm -f "$dst"
+    if [ -L "$dst" ]; then
+        rm "$dst"
+    elif [ -e "$dst" ]; then
+        mv "$dst" "$dst.bak.$(date +%s)"
     fi
 
     ln -s "$src" "$dst"
@@ -24,4 +26,4 @@ link "$DOT/.vimrc"    "$HOME/.vimrc"
 
 # mise
 mkdir -p "$HOME/.config/mise"
-link "$DOT/config/mise" "$HOME/.config/mise"
+link "$DOT/config/mise/config.toml" "$HOME/.config/mise/config.toml"
