@@ -59,6 +59,8 @@ alias ls='eza --icons --classify --group-directories-first'
 alias la='eza -a --icons --classify --group-directories-first'
 alias ll='eza -lah --icons --classify --group-directories-first --time-style=long-iso --git'
 alias lt='eza --tree --level=2 --icons --classify'
+alias llt='eza -lah --tree --level=2 --icons --classify --time-style=long-iso --git'
+alias clip='pbcopy'
 
 alias cat='bat'        # シンタックスハイライト付き表示
 alias grep='rg'       # 爆速検索 (ripgrep)
